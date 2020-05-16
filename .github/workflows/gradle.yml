@@ -24,3 +24,11 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew bootJar
+    - name: 'Get Version Number'
+      run: |
+        echo "::set-env name=VERSION::$(./gradlew properties -q | grep "version:" | awk '{print $2}')"
+    - name: 'Publish JAR'
+      uses: actions/upload-artifact@v2-preview
+      with:
+        name: ‘demo-action-${{env.VERSION}}-all.jar'
+        path: build/libs/*-all.jar
