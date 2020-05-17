@@ -24,7 +24,13 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Run tests
-        run: ./gradlew test
+        run: ./gradlew
+      - name: 'Publish Test Report'
+        if: always()
+        uses: actions/upload-artifact@v2-preview
+        with:
+          name: 'test-report'
+          path: build/reports/tests/test/*
       - name: Build with Gradle
         run: ./gradlew bootJar
       - name: 'Get Version Number'
